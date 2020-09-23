@@ -1,5 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   return (
@@ -14,40 +15,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <KeyLog></KeyLog>
       </main>
 
       <footer className={styles.footer}>
@@ -61,5 +29,33 @@ export default function Home() {
         </a>
       </footer>
     </div>
+  );
+}
+
+function KeyLog() {
+  const [events, setEvents] = useState<KeyboardEvent[]>([]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      console.log(e);
+      setEvents((events) => [...events, e]);
+    };
+    window.addEventListener("keydown", handler);
+    window.addEventListener("keyup", handler);
+    return () => {
+      window.removeEventListener("keydown", handler);
+      window.removeEventListener("keyup", handler);
+    };
+  }, []);
+
+  const items = events.map((e, i) => (
+    <li key={i}>
+      Type: {e.type}, Key: {e.key}, Repeated: {String(e.repeat)}
+    </li>
+  ));
+  return (
+    <ul>
+      {items.slice(items.length >= 10 ? items.length - 10 : 0, items.length)}
+    </ul>
   );
 }
