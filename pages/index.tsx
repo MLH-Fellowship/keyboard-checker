@@ -14,7 +14,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
+        <Keyboard></Keyboard>
         <KeyLog></KeyLog>
       </main>
 
@@ -30,6 +30,57 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+function Keyboard() {
+  const events = useKeyEventListeners();
+
+  const keys = [
+    "Escape",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "f5",
+    "f6",
+    "f7",
+    "f8",
+    "f9",
+    "f10",
+    "f11",
+    "f12",
+    "???",
+    "`",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "-",
+    "=",
+    "Backspace",
+  ];
+  const keyDivs = keys.map((key, i) => (
+    <div
+      style={{
+        display: "inline-block",
+        width: "70px",
+        height: "70px",
+        margin: "5px",
+        border: "1px solid black",
+      }}
+      key={key}
+    >
+      {key}
+    </div>
+  ));
+
+  return <div style={{ width: "1120px" }}>{keyDivs}</div>;
 }
 
 function KeyLog() {
