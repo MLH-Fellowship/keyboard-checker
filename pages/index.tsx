@@ -33,6 +33,21 @@ export default function Home() {
 }
 
 function KeyLog() {
+  const events = useKeyEventListeners();
+
+  const items = events.map((e, i) => (
+    <li key={i}>
+      Type: {e.type}, Key: {e.key}, Repeated: {String(e.repeat)}
+    </li>
+  ));
+  return (
+    <ul>
+      {items.slice(items.length >= 10 ? items.length - 10 : 0, items.length)}
+    </ul>
+  );
+}
+
+function useKeyEventListeners(): KeyboardEvent[] {
   const [events, setEvents] = useState<KeyboardEvent[]>([]);
 
   useEffect(() => {
@@ -48,14 +63,5 @@ function KeyLog() {
     };
   }, []);
 
-  const items = events.map((e, i) => (
-    <li key={i}>
-      Type: {e.type}, Key: {e.key}, Repeated: {String(e.repeat)}
-    </li>
-  ));
-  return (
-    <ul>
-      {items.slice(items.length >= 10 ? items.length - 10 : 0, items.length)}
-    </ul>
-  );
+  return events;
 }
