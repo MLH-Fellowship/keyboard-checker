@@ -17,6 +17,7 @@ export default function Home() {
         </h1>
         <KeyboardComponent></KeyboardComponent>
         <KeyLog></KeyLog>
+        <KeyTrackerTest></KeyTrackerTest>
       </main>
 
       <footer className={styles.footer}>
@@ -77,6 +78,27 @@ function KeyLog() {
     <ul>
       {items.slice(items.length >= 10 ? items.length - 10 : 0, items.length)}
     </ul>
+  );
+}
+
+function KeyTrackerTest() {
+  const keyTracker = useKeyTracker();
+
+  const held = [];
+  keyTracker.isPressed.forEach((k) => held.push(<li key={k}>{k}</li>));
+
+  const hasBeenPressed = [];
+  keyTracker.hasBeenPressed.forEach((k) =>
+    hasBeenPressed.push(<li key={k}>{k}</li>)
+  );
+
+  return (
+    <div>
+      <h2>Currently held:</h2>
+      <ul>{held}</ul>
+      <h2>Have been pressed:</h2>
+      <ul>{hasBeenPressed}</ul>
+    </div>
   );
 }
 
