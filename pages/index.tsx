@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Keyboard from "react-simple-keyboard";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        <Keyboard></Keyboard>
+        <KeyboardComponent></KeyboardComponent>
         <KeyLog></KeyLog>
       </main>
 
@@ -32,55 +33,36 @@ export default function Home() {
   );
 }
 
-function Keyboard() {
-  const events = useKeyEventListeners();
+function KeyboardComponent() {
+  const [input, setInput] = useState("");
+  const [layout, setLayout] = useState("default");
+  const keyboard = useRef();
 
-  const keys = [
-    "Escape",
-    "F1",
-    "F2",
-    "F3",
-    "F4",
-    "f5",
-    "f6",
-    "f7",
-    "f8",
-    "f9",
-    "f10",
-    "f11",
-    "f12",
-    "???",
-    "`",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "0",
-    "-",
-    "=",
-    "Backspace",
-  ];
-  const keyDivs = keys.map((key, i) => (
-    <div
-      style={{
-        display: "inline-block",
-        width: "70px",
-        height: "70px",
-        margin: "5px",
-        border: "1px solid black",
-      }}
-      key={key}
-    >
-      {key}
+  const onChange = input => {
+    setInput(input);
+    console.log("Input changed", input);
+  };
+
+  const onChangeInput = event => {
+    const input = event.target.value;
+    console.log(input);
+  };
+
+  return (
+    <div className="App">
+      <input
+        value={input}
+        placeholder={"Tap on the virtual keyboard to start"}
+        onChange={onChangeInput}
+      />
+      <Keyboard
+        keyboardRef={r => (keyboard.current = r)}
+        layoutName={layout}
+        onChange={onChange}
+        physicalKeyboardHighlight={true}
+      />
     </div>
-  ));
-
-  return <div style={{ width: "1120px" }}>{keyDivs}</div>;
+  );
 }
 
 function KeyLog() {
