@@ -38,12 +38,12 @@ function KeyboardComponent() {
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
 
-  const onChange = input => {
+  const onChange = (input) => {
     setInput(input);
     console.log("Input changed", input);
   };
 
-  const onChangeInput = event => {
+  const onChangeInput = (event) => {
     const input = event.target.value;
     console.log(input);
   };
@@ -56,7 +56,7 @@ function KeyboardComponent() {
         onChange={onChangeInput}
       />
       <Keyboard
-        keyboardRef={r => (keyboard.current = r)}
+        keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}
         onChange={onChange}
         physicalKeyboardHighlight={true}
@@ -66,9 +66,9 @@ function KeyboardComponent() {
 }
 
 function KeyLog() {
-  const events = useKeyEventListeners();
+  const keyTracker = useKeyTracker();
 
-  const items = events.map((e, i) => (
+  const items = keyTracker.events.map((e, i) => (
     <li key={i}>
       Type: {e.type}, Key: {e.key}, Repeated: {String(e.repeat)}
     </li>
@@ -80,14 +80,39 @@ function KeyLog() {
   );
 }
 
-function useKeyEventListeners(): KeyboardEvent[] {
-  const [events, setEvents] = useState<KeyboardEvent[]>([]);
+interface KeyTracker {
+  events: KeyboardEvent[];
+  isPressed: Set<string>;
+  hasBeenPressed: Set<string>;
+}
+
+function useKeyTracker(): KeyTracker {
+  const [keyTracker, setKeyTracker] = useState<KeyTracker>({
+    events: [],
+    isPressed: new Set(),
+    hasBeenPressed: new Set(),
+  });
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       console.log(e);
-      setEvents((events) => [...events, e]);
+      setKeyTracker(({ events, isPressed, hasBeenPressed }) => {
+        const newIsPressed = new Set([...isPressed]);
+        if (e.type == "keydown") {
+          newIsPressed.add(e.key);
+        } else {
+          newIsPressed.delete(e.key);
+        }
+        const newHasBeenPressed = new Set([...hasBeenPressed, e.key]);
+
+        return {
+          events: [...events, e],
+          isPressed: newIsPressed,
+          hasBeenPressed: newHasBeenPressed,
+        };
+      });
     };
+
     window.addEventListener("keydown", handler);
     window.addEventListener("keyup", handler);
     return () => {
@@ -96,5 +121,5 @@ function useKeyEventListeners(): KeyboardEvent[] {
     };
   }, []);
 
-  return events;
+  return keyTracker;
 }
