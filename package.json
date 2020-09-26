@@ -8,8 +8,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "chart.js": "^2.9.3",
+    "chartjs-plugin-streaming": "^1.8.0",
     "next": "9.5.3",
     "react": "16.13.1",
+    "react-chartjs-2": "^2.10.0",
     "react-dom": "16.13.1",
     "react-simple-keyboard": "^2.4.36"
   },
