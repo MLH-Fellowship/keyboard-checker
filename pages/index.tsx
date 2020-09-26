@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect, useRef } from "react";
 import Keyboard from "react-simple-keyboard";
+import Chart from "./chart"
 
 export default function Home() {
     const [highlightColor, setHighLight] = useState("#fff");
@@ -18,6 +19,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
         <KeyboardComponent></KeyboardComponent>
+        <Chart/>
         <KeyLog></KeyLog>
         <KeyTrackerTest></KeyTrackerTest>
       </main>
