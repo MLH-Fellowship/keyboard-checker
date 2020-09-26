@@ -2,7 +2,6 @@ import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
 
 export default function Chart() {
-
     return (
         <Line
             data={{
@@ -31,11 +30,13 @@ export default function Chart() {
                 scales: {
                     xAxes: [
                         {
+                            type: "realtime",
                             realtime: {
                                 onRefresh: (chart) => {
                                     chart.data.datasets.forEach((dataset) => {
                                         dataset.data.push({
                                             x: Date.now(),
+
                                             y: Math.random(),
                                         });
                                     });
