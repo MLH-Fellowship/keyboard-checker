@@ -7,10 +7,10 @@ import Chart from "./chart"
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Head>
+      {/* <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head> */}
 
       <main className={styles.main}>
         <h1 className={styles.title}>
@@ -110,7 +110,7 @@ interface KeyTracker {
   hasBeenPressed: Set<string>;
 }
 
-function useKeyTracker(): KeyTracker {
+export function useKeyTracker(): KeyTracker {
   const [keyTracker, setKeyTracker] = useState<KeyTracker>({
     events: [],
     isPressed: new Set(),
