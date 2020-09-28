@@ -1,40 +1,68 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, createContext, useContext } from "react";
 import Keyboard from "react-simple-keyboard";
-import Chart from "../components/chart"
+import Chart from "../components/chart";
+import { ThemeContext, Themes, DefaultThemeSelector } from "../util/theme";
 
 export default function Home() {
-    const [highlightColor, setHighLight] = useState("#fff");
-
+  let [theme, setTheme] = useState(Themes["Port Gore"]);
   return (
-    <div className={styles.container}>
-      {/* <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head> */}
+    <ThemeContext.Provider value={theme}>
+      <div
+        className={styles.container}
+        style={{ background: theme.background, color: theme.paragraph }}
+      >
+        <ThemeChanger onChange={(t) => setTheme(Themes[t])} />
+        <Head>
+          <title>Create Next App</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-        <KeyboardComponent></KeyboardComponent>
-        <Chart/>
-        <KeyLog></KeyLog>
-        <KeyTrackerTest></KeyTrackerTest>
-      </main>
+        <main className={styles.main}>
+          <h1 className={styles.title}>
+            Welcome to <a href="https://nextjs.org">Next.js!</a>
+          </h1>
+          <KeyboardComponent></KeyboardComponent>
+          <Chart></Chart>
+          <KeyLog></KeyLog>
+          <KeyTrackerTest></KeyTrackerTest>
+        </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+        <footer className={styles.footer}>
+          <a
+            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Powered by{" "}
+            <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          </a>
+        </footer>
+      </div>
+    </ThemeContext.Provider>
+  );
+}
+
+function ThemeChanger({ onChange }) {
+  let [themeSelector, setThemeSelector] = useState(DefaultThemeSelector);
+  let themeOptions = Object.keys(Themes)
+    .sort()
+    .map((t) => (
+      <option value={t} key={t}>
+        {t}
+      </option>
+    ));
+  return (
+    <select
+      value={themeSelector}
+      onChange={(e) => {
+        setThemeSelector(e.target.value);
+        onChange(e.target.value);
+      }}
+    >
+      {themeOptions}
+    </select>
   );
 }
 
@@ -43,14 +71,12 @@ function KeyboardComponent() {
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
   let pressedKeysArr = [];
-  
-  
-  
+
   // TODO: handleShift and Caps Lock via physical keyboard. The following only handles digital keyboard
   const handleShift = () => {
-    setLayout(layout === "default" ? "shift" : "default")
-  }
-  
+    setLayout(layout === "default" ? "shift" : "default");
+  };
+
   const onKeyPress = (button) => {
     console.log("Button pressed", button);
     /**
@@ -58,16 +84,15 @@ function KeyboardComponent() {
      */
     if (button === "{shift}" || button === "{lock}") handleShift();
   };
-  
-  
-  const keyTracker = useKeyTracker()
-  let currentlyPressedKeys = Array.from(keyTracker.isPressed).join(' ')
-  keyTracker.hasBeenPressed.forEach(key => {
+
+  const keyTracker = useKeyTracker();
+  let currentlyPressedKeys = Array.from(keyTracker.isPressed).join(" ");
+  keyTracker.hasBeenPressed.forEach((key) => {
     if (!keyTracker.isPressed.has(key)) {
-      pressedKeysArr.push(key)
+      pressedKeysArr.push(key);
     }
-  })
-  let pressedKeysStr = pressedKeysArr.join(' ')
+  });
+  let pressedKeysStr = pressedKeysArr.join(" ");
 
   const onChange = (input) => {
     setInput(input);
@@ -79,9 +104,6 @@ function KeyboardComponent() {
     console.log(input);
   };
 
-  
-
-  
   return (
     <div className="App">
       <input
@@ -92,7 +114,6 @@ function KeyboardComponent() {
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}
-        
         onKeyPress={(button) => onKeyPress(button)}
         layout={{
           default: [
@@ -130,7 +151,6 @@ function KeyboardComponent() {
 
 function KeyLog() {
   const keyTracker = useKeyTracker();
-  
 
   const items = keyTracker.events.map((e, i) => (
     <li key={i}>
@@ -153,7 +173,6 @@ function KeyTrackerTest() {
   const hasBeenPressed = [];
   keyTracker.hasBeenPressed.forEach((k) =>
     hasBeenPressed.push(<li key={k}>{k}</li>)
-    
   );
 
   return (
