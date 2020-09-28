@@ -41,15 +41,14 @@ function KeyboardComponent() {
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
   let pressedKeysArr = [];
-  let currentlyPressedKeys = Array.from(useKeyTracker().isPressed).join(' ')
-
-
+  
+  
   
   // TODO: handleShift and Caps Lock via physical keyboard. The following only handles digital keyboard
   const handleShift = () => {
     setLayout(layout === "default" ? "shift" : "default")
   }
-
+  
   const onKeyPress = (button) => {
     console.log("Button pressed", button);
     /**
@@ -57,9 +56,10 @@ function KeyboardComponent() {
      */
     if (button === "{shift}" || button === "{lock}") handleShift();
   };
-
-
+  
+  
   const keyTracker = useKeyTracker()
+  let currentlyPressedKeys = Array.from(keyTracker.isPressed).join(' ')
   keyTracker.hasBeenPressed.forEach(key => {
     if (!keyTracker.isPressed.has(key)) {
       pressedKeysArr.push(key)
