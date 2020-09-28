@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, createContext, useContext } from "react";
 import Keyboard from "react-simple-keyboard";
 import Chart from "../components/chart";
 import { ThemeContext, Themes, DefaultThemeSelector } from "../util/theme";
+import { KeyLog } from "../components/KeyLog";
 
 export default function Home() {
   let [theme, setTheme] = useState(Themes["Port Gore"]);
@@ -146,21 +147,6 @@ function KeyboardComponent() {
         ]}
       />
     </div>
-  );
-}
-
-function KeyLog() {
-  const keyTracker = useKeyTracker();
-
-  const items = keyTracker.events.map((e, i) => (
-    <li key={i}>
-      Type: {e.type}, Key: {e.key}, Repeated: {String(e.repeat)}
-    </li>
-  ));
-  return (
-    <ul>
-      {items.slice(items.length >= 10 ? items.length - 10 : 0, items.length)}
-    </ul>
   );
 }
 
