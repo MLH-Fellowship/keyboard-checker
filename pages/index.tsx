@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Keyboard from "react-simple-keyboard";
 
 export default function Home() {
+    const [highlightColor, setHighLight] = useState("#fff");
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,7 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
@@ -38,6 +40,32 @@ function KeyboardComponent() {
   const [input, setInput] = useState("");
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
+  let pressedKeysArr = [];
+  let currentlyPressedKeys = Array.from(useKeyTracker().isPressed).join(' ')
+
+
+  
+  // TODO: handleShift and Caps Lock via physical keyboard. The following only handles digital keyboard
+  const handleShift = () => {
+    setLayout(layout === "default" ? "shift" : "default")
+  }
+
+  const onKeyPress = (button) => {
+    console.log("Button pressed", button);
+    /**
+     * If you want to handle the shift and caps lock buttons
+     */
+    if (button === "{shift}" || button === "{lock}") handleShift();
+  };
+
+
+  const keyTracker = useKeyTracker()
+  keyTracker.hasBeenPressed.forEach(key => {
+    if (!keyTracker.isPressed.has(key)) {
+      pressedKeysArr.push(key)
+    }
+  })
+  let pressedKeysStr = pressedKeysArr.join(' ')
 
   const onChange = (input) => {
     setInput(input);
@@ -49,6 +77,9 @@ function KeyboardComponent() {
     console.log(input);
   };
 
+  
+
+  
   return (
     <div className="App">
       <input
@@ -59,8 +90,37 @@ function KeyboardComponent() {
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}
+        
+        onKeyPress={(button) => onKeyPress(button)}
+        layout={{
+          default: [
+            "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+            "{tab} q w e r t y u i o p [ ] \\",
+            "{lock} a s d f g h j k l ; ' {enter}",
+            "{shift} z x c v b n m , . / {shift}",
+            ".com @ {space}",
+          ],
+          shift: [
+            "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
+            "{tab} Q W E R T Y U I O P { } |",
+            '{lock} A S D F G H J K L : " {enter}',
+            "{shift} Z X C V B N M < > ? {shift}",
+            ".com @ {space}",
+          ],
+        }}
         onChange={onChange}
-        physicalKeyboardHighlight={true}
+        buttonTheme={[
+          {
+            class: `${styles["pressed-key"]}`,
+            buttons: pressedKeysStr ? pressedKeysStr : "empty",
+            // Placeholder value needed, otherwise ESLINT error
+          },
+          {
+            class: `${styles["currently-pressed"]}`,
+            buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
+            // Placeholder value needed, otherwise ESLINT error
+          },
+        ]}
       />
     </div>
   );
@@ -68,6 +128,7 @@ function KeyboardComponent() {
 
 function KeyLog() {
   const keyTracker = useKeyTracker();
+  
 
   const items = keyTracker.events.map((e, i) => (
     <li key={i}>
@@ -90,6 +151,7 @@ function KeyTrackerTest() {
   const hasBeenPressed = [];
   keyTracker.hasBeenPressed.forEach((k) =>
     hasBeenPressed.push(<li key={k}>{k}</li>)
+    
   );
 
   return (
@@ -117,7 +179,6 @@ function useKeyTracker(): KeyTracker {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      console.log(e);
       setKeyTracker(({ events, isPressed, hasBeenPressed }) => {
         const newIsPressed = new Set([...isPressed]);
         if (e.type == "keydown") {

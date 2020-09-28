@@ -121,3 +121,21 @@
     flex-direction: column;
   }
 }
+
+
+
+.pressed-key {
+  background: #abd1c6!important;
+
+}
+
+.tapped-key {
+  background: #f9bc60!important;
+
+}
+
+.currently-pressed {
+    background: #e16162 !important;
+    font-weight: 900;
+}
+
