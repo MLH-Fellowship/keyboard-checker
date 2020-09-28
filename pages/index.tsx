@@ -2,7 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect, useRef } from "react";
 import Keyboard from "react-simple-keyboard";
-import Chart from "./chart"
+import Chart from "../components/chart"
 
 export default function Home() {
   return (

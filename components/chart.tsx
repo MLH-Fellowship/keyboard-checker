@@ -1,6 +1,6 @@
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
-import { useKeyTracker } from "./index";
+import { useKeyTracker } from "../pages/index";
 import { useRef } from "react";
 
 interface UpdateProps {
@@ -43,11 +43,6 @@ export default function Chart() {
                     ],
                 }}
                 options={{
-                    ticks: {
-                        min: 0,
-                        max: 10,
-                        beginAtZero: true,
-                    },
                     title: {
                         display: true,
                         text: "Keys pressed frequency time chart",
@@ -60,21 +55,25 @@ export default function Chart() {
                             {
                                 type: "realtime",
                                 realtime: {
-                                    // onRefresh: (chart) => {
-                                    //     chart.data.datasets.forEach(
-                                    //         (dataset) => {
-                                    //             dataset.data.push({
-                                    //                 x: Date.now(),
-                                    //                 y: 0,
-                                    //             });
-                                    //         }
-                                    //     );
-                                    // },
+                                    onRefresh: (chart) => {
+                                        chart.data.datasets.forEach(
+                                            (dataset) => {
+                                                const data = dataset.data;
+                                                data.push({
+                                                    x: Date.now(),
+                                                    y: data.length == 0 ? 0 : data[data.length-1],
+                                                });
+                                            }
+                                        );
+                                    },
 
                                     delay: 0,
                                 },
                                 time: {
                                     unit: "millisecond",
+                                },
+                                gridLines: {
+                                    drawOnChartArea: false,
                                 },
                                 scaleLabel: {
                                     display: true,
@@ -85,9 +84,13 @@ export default function Chart() {
                         yAxes: [
                             {
                                 ticks: {
+                                    display: false,
                                     min: 0,
-                                    max: 10,
+                                    max: 7,
                                     stepSize: 1.0,
+                                },
+                                gridLines: {
+                                    drawOnChartArea: false,
                                 },
                                 scaleLabel: {
                                     display: true,
