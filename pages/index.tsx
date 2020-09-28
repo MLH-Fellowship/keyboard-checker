@@ -68,7 +68,6 @@ function ThemeChanger({ onChange }) {
 }
 
 function KeyboardComponent() {
-  const [input, setInput] = useState("");
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
   let pressedKeysArr = [];
@@ -95,58 +94,40 @@ function KeyboardComponent() {
   });
   let pressedKeysStr = pressedKeysArr.join(" ");
 
-  const onChange = (input) => {
-    setInput(input);
-    console.log("Input changed", input);
-  };
-
-  const onChangeInput = (event) => {
-    const input = event.target.value;
-    console.log(input);
-  };
-
   return (
-    <div className="App">
-      <input
-        value={input}
-        placeholder={"Tap on the virtual keyboard to start"}
-        onChange={onChangeInput}
-      />
-      <Keyboard
-        keyboardRef={(r) => (keyboard.current = r)}
-        layoutName={layout}
-        onKeyPress={(button) => onKeyPress(button)}
-        layout={{
-          default: [
-            "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
-            "{tab} q w e r t y u i o p [ ] \\",
-            "{lock} a s d f g h j k l ; ' {enter}",
-            "{shift} z x c v b n m , . / {shift}",
-            ".com @ {space}",
-          ],
-          shift: [
-            "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
-            "{tab} Q W E R T Y U I O P { } |",
-            '{lock} A S D F G H J K L : " {enter}',
-            "{shift} Z X C V B N M < > ? {shift}",
-            ".com @ {space}",
-          ],
-        }}
-        onChange={onChange}
-        buttonTheme={[
-          {
-            class: `${styles["pressed-key"]}`,
-            buttons: pressedKeysStr ? pressedKeysStr : "empty",
-            // Placeholder value needed, otherwise ESLINT error
-          },
-          {
-            class: `${styles["currently-pressed"]}`,
-            buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
-            // Placeholder value needed, otherwise ESLINT error
-          },
-        ]}
-      />
-    </div>
+    <Keyboard
+      keyboardRef={(r) => (keyboard.current = r)}
+      layoutName={layout}
+      onKeyPress={(button) => onKeyPress(button)}
+      layout={{
+        default: [
+          "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+          "{tab} q w e r t y u i o p [ ] \\",
+          "{lock} a s d f g h j k l ; ' {enter}",
+          "{shift} z x c v b n m , . / {shift}",
+          ".com @ {space}",
+        ],
+        shift: [
+          "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
+          "{tab} Q W E R T Y U I O P { } |",
+          '{lock} A S D F G H J K L : " {enter}',
+          "{shift} Z X C V B N M < > ? {shift}",
+          ".com @ {space}",
+        ],
+      }}
+      buttonTheme={[
+        {
+          class: `${styles["pressed-key"]}`,
+          buttons: pressedKeysStr ? pressedKeysStr : "empty",
+          // Placeholder value needed, otherwise ESLINT error
+        },
+        {
+          class: `${styles["currently-pressed"]}`,
+          buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
+          // Placeholder value needed, otherwise ESLINT error
+        },
+      ]}
+    />
   );
 }
 
