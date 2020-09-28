@@ -7,6 +7,7 @@ interface Theme {
   paragraph: string;
   button: string;
   button_text: string;
+  stroke: string;
 }
 
 export const Themes: { [name: string]: Theme } = {
@@ -16,6 +17,7 @@ export const Themes: { [name: string]: Theme } = {
     paragraph: "#b8c1ec",
     button: "#eebbc3",
     button_text: "#232946",
+    stroke: "#121629",
   },
   Solitaire: {
     background: "#fef6e4",
@@ -23,6 +25,7 @@ export const Themes: { [name: string]: Theme } = {
     paragraph: "#172c66",
     button: "#f582ae",
     button_text: "#001858",
+    stroke: "#001858",
   },
 };
 
