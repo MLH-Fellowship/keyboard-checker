@@ -8,6 +8,7 @@ interface Theme {
   button: string;
   button_text: string;
   stroke: string;
+  chartBorder: string;
 }
 
 export const Themes: { [name: string]: Theme } = {
@@ -18,6 +19,7 @@ export const Themes: { [name: string]: Theme } = {
     button: "#eebbc3",
     button_text: "#232946",
     stroke: "#121629",
+    chartBorder: "#e53170",
   },
   Solitaire: {
     background: "#fef6e4",
@@ -26,6 +28,7 @@ export const Themes: { [name: string]: Theme } = {
     button: "#f582ae",
     button_text: "#001858",
     stroke: "#001858",
+    chartBorder: "#e53170",
   },
 };
 
