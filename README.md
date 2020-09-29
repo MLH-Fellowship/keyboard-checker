@@ -5,6 +5,8 @@ Leverages the following open source packages:
 * [Simple Keyboard](https://hodgef.com/simple-keyboard/)
 * [chartjs-plugin-streaming](https://nagix.github.io/chartjs-plugin-streaming/)
 
+![Imgur](https://i.imgur.com/krPNYzv.png)
+
 ## Getting Started
 
 First, run the development server:
