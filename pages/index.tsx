@@ -94,24 +94,34 @@ function KeyboardComponent() {
   });
   let pressedKeysStr = pressedKeysArr.join(" ");
 
+
   const pressedResolve = css.resolve`
     div {
       background: ${theme.paragraph} !important;
+      color: ${theme.button_text};
     }
   `;
   const currentlyPressedResolve = css.resolve`
     div {
       background: ${theme.button} !important;
+      color: ${theme.button_text};
+      font-weight: 900;
     }
   `;
-  console.log(pressedResolve);
 
+  const keyboardTheme = css.resolve`
+    div {
+      background: ${theme.stroke} !important;
+      font-weight: 900;
+    }
+  `
+    console.log(keyboardTheme)
   return (
     <div>
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}
-        theme={`hg-theme-default`}
+        theme={`hg-theme-default ${keyboardTheme.className}` }
         // theme={theme.name === "portGore" ? `hg-theme-default ${styles.portGore}` : `${styles.solitare} hg-theme-default`}
         onKeyPress={(button) => onKeyPress(button)}
         layout={{
