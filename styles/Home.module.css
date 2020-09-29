@@ -122,35 +122,28 @@
   }
 }
 
-
-
 .pressed-key-portGore {
   background: #eebbc3 !important;
-  
 }
 
-
 .currently-pressed-portGore {
-  background: #bae8e8!important;
+  background: #bae8e8 !important;
   font-weight: 900;
 }
 
-
-
 .pressed-key-solitare {
   background: #f582ae !important;
-  
 }
 .currently-pressed-solitare {
-  background: #8bd3dd!important;
-    font-weight: 900;
+  background: #8bd3dd !important;
+  font-weight: 900;
 }
 
 @-webkit-keyframes rotate {
   from {
     background-position: -3000px;
   }
-  to { 
+  to {
     background-position: 0px;
   }
 }
@@ -159,20 +152,16 @@
   from {
     background-position: -3000px;
   }
-  to { 
+  to {
     background-position: 0px;
   }
 }
 
 .portGore {
   color: black;
-  background-color:#b8c1ec !important;
+  background-color: #b8c1ec !important;
 }
 
 .solitare {
   background-color: #f3d2c1 !important;
 }
-
-
-
-

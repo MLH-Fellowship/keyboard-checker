@@ -21,9 +21,7 @@ export default function Home() {
         </Head>
 
         <main className={styles.main}>
-          <h1 className={styles.title}>
-            Switch Check
-          </h1>
+          <h1 className={styles.title}>Switch Check</h1>
           <KeyboardComponent></KeyboardComponent>
           <Chart></Chart>
           <KeyLog></KeyLog>
@@ -96,13 +94,16 @@ function KeyboardComponent() {
 
   return (
     <ThemeContext.Consumer>
-      {theme => {
+      {(theme) => {
         return (
-
           <Keyboard
             keyboardRef={(r) => (keyboard.current = r)}
             layoutName={layout}
-            theme={theme.name === "portGore" ? `hg-theme-default ${styles.portGore}` : `${styles.solitare} hg-theme-default`}
+            theme={
+              theme.name === "portGore"
+                ? `hg-theme-default ${styles.portGore}`
+                : `${styles.solitare} hg-theme-default`
+            }
             onKeyPress={(button) => onKeyPress(button)}
             layout={{
               default: [
@@ -122,21 +123,26 @@ function KeyboardComponent() {
             }}
             buttonTheme={[
               {
-                class: theme.name === "portGore" ?  `${styles["pressed-key-portGore"]}` : `${styles["pressed-key-solitare"]}` ,
+                class:
+                  theme.name === "portGore"
+                    ? `${styles["pressed-key-portGore"]}`
+                    : `${styles["pressed-key-solitare"]}`,
                 buttons: pressedKeysStr ? pressedKeysStr : "empty",
                 // Placeholder value needed, otherwise ESLINT error
               },
               {
-                class: theme.name === "portGore" ? `${styles["currently-pressed-portGore"]}` : `${styles["currently-pressed-solitare"]}`,
+                class:
+                  theme.name === "portGore"
+                    ? `${styles["currently-pressed-portGore"]}`
+                    : `${styles["currently-pressed-solitare"]}`,
                 buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
                 // Placeholder value needed, otherwise ESLINT error
               },
             ]}
           />
-        )
+        );
       }}
     </ThemeContext.Consumer>
-
   );
 }
 
