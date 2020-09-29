@@ -5,6 +5,7 @@ import Keyboard from "react-simple-keyboard";
 import Chart from "../components/chart";
 import { ThemeContext, Themes, DefaultThemeSelector } from "../util/theme";
 import { KeyLog } from "../components/KeyLog";
+import css from "styled-jsx/css";
 
 export default function Home() {
   let [theme, setTheme] = useState(Themes["Port Gore"]);
@@ -21,9 +22,7 @@ export default function Home() {
         </Head>
 
         <main className={styles.main}>
-          <h1 className={styles.title}>
-            Switch Check
-          </h1>
+          <h1 className={styles.title}>Switch Check</h1>
           <KeyboardComponent></KeyboardComponent>
           <Chart></Chart>
           <KeyLog></KeyLog>
@@ -70,8 +69,7 @@ function ThemeChanger({ onChange }) {
 function KeyboardComponent() {
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
-  const theme = useContext(ThemeContext)
-  console.log(theme)
+  const theme = useContext(ThemeContext);
   let pressedKeysArr = [];
 
   // TODO: handleShift and Caps Lock via physical keyboard. The following only handles digital keyboard
@@ -95,6 +93,18 @@ function KeyboardComponent() {
     }
   });
   let pressedKeysStr = pressedKeysArr.join(" ");
+
+  const pressedResolve = css.resolve`
+    div {
+      background: ${theme.paragraph} !important;
+    }
+  `;
+  const currentlyPressedResolve = css.resolve`
+    div {
+      background: ${theme.button} !important;
+    }
+  `;
+  console.log(pressedResolve);
 
   return (
     <div>
@@ -122,31 +132,22 @@ function KeyboardComponent() {
         }}
         buttonTheme={[
           {
-            class: `pressed`,
+            class: pressedResolve.className,
             buttons: pressedKeysStr ? pressedKeysStr : "empty",
             // Placeholder value needed, otherwise ESLINT error
           },
           {
-            class: `currentlyPressed`,
+            class: currentlyPressedResolve.className,
             buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
             // Placeholder value needed, otherwise ESLINT error
           },
         ]}
       ></Keyboard>
-      <style jsx>{`
-        div > :global(.pressed) {
-          background: #eebbc3 !important;
-        }
-        .currentlyPressed {
-          background: blue !important;
-        }
-      `}</style>
+      {pressedResolve.styles}
+      {currentlyPressedResolve.styles}
     </div>
   );
-  }
-
-  
-
+}
 
 function KeyTrackerTest() {
   const keyTracker = useKeyTracker();
