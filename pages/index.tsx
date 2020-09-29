@@ -152,14 +152,21 @@ function KeyboardComponent() {
   //! Still having issues with the keyboard theme
   const keyboardTheme = css.resolve`
     div {
-      background: ${theme.headline} !important;
+      background: ${theme.button} !important;
       color: ${theme.button_text};
       font-weight: 500;
     }
   `;
   console.log(keyboardTheme);
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}

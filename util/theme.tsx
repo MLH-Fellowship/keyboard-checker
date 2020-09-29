@@ -39,15 +39,6 @@ export const Themes: { [name: string]: Theme } = {
     stroke: "#001e1d",
     chartBorder: "#e53170",
   },
-  Pizazz: {
-    background: "#0f0e17",
-    headline: "#fffffe",
-    paragraph: "#a7a9be",
-    button: "#ff8906",
-    button_text: "#fffffe",
-    stroke: "black",
-    chartBorder: "#e53170",
-  },
 };
 
 export const DefaultThemeSelector = "Port Gore";
