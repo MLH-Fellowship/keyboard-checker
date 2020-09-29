@@ -123,3 +123,11 @@
 }
 
 
+.themeChanger {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  border-radius: 3px;
+  font-size: 1.2rem;
+}
+

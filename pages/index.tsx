@@ -15,41 +15,48 @@ export default function Home() {
         className={styles.container}
         style={{ background: theme.background, color: theme.paragraph }}
       >
-        <ThemeChanger onChange={(t) => setTheme(Themes[t])} />
         <Head>
           <title>Switch Check</title>
           <link rel="icon" href="/working.png" />
         </Head>
 
+        <ThemeChanger
+          className={styles.themeChanger}
+          onChange={(t) => setTheme(Themes[t])}
+        />
         <main className={styles.main}>
           <h1 className={styles.title}>Switch Check</h1>
           <KeyboardComponent></KeyboardComponent>
-          <Chart></Chart>
-          <KeyLog></KeyLog>
-          <KeyTrackerTest></KeyTrackerTest>
-        </main>
-
-        <footer className={styles.footer}>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <div
+            style={{
+              display: "flex",
+              width: "1000px",
+            }}
           >
-            Powered by{" "}
-            <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-          </a>
-        </footer>
+            <KeyLog></KeyLog>
+            <Chart></Chart>
+          </div>
+        </main>
       </div>
     </ThemeContext.Provider>
   );
 }
 
-function ThemeChanger({ onChange }) {
+function ThemeChanger({ onChange, className }) {
+  let theme = useContext(ThemeContext);
   let [themeSelector, setThemeSelector] = useState(DefaultThemeSelector);
   let themeOptions = Object.keys(Themes)
     .sort()
     .map((t) => (
-      <option value={t} key={t}>
+      <option
+        value={t}
+        key={t}
+        style={{
+          backgroundColor: Themes[t].background,
+          borderColor: Themes[t].background,
+          color: Themes[t].paragraph,
+        }}
+      >
         {t}
       </option>
     ));
@@ -59,6 +66,12 @@ function ThemeChanger({ onChange }) {
       onChange={(e) => {
         setThemeSelector(e.target.value);
         onChange(e.target.value);
+      }}
+      className={className}
+      style={{
+        backgroundColor: theme.button,
+        borderColor: theme.button,
+        color: theme.button_text,
       }}
     >
       {themeOptions}
@@ -200,6 +213,7 @@ export function useKeyTracker(): KeyTracker {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      e.preventDefault();
       setKeyTracker(({ events, isPressed, hasBeenPressed }) => {
         const newIsPressed = new Set([...isPressed]);
         if (e.type == "keydown") {
