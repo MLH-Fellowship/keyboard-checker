@@ -14,12 +14,15 @@ export default function Home() {
         className={styles.container}
         style={{ background: theme.background, color: theme.paragraph }}
       >
-        <ThemeChanger onChange={(t) => setTheme(Themes[t])} />
         <Head>
           <title>Create Next App</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
+        <ThemeChanger
+          className={styles.themeChanger}
+          onChange={(t) => setTheme(Themes[t])}
+        />
         <main className={styles.main}>
           <h1 className={styles.title}>
             Welcome to <a href="https://nextjs.org">Next.js!</a>
@@ -33,12 +36,21 @@ export default function Home() {
   );
 }
 
-function ThemeChanger({ onChange }) {
+function ThemeChanger({ onChange, className }) {
+  let theme = useContext(ThemeContext);
   let [themeSelector, setThemeSelector] = useState(DefaultThemeSelector);
   let themeOptions = Object.keys(Themes)
     .sort()
     .map((t) => (
-      <option value={t} key={t}>
+      <option
+        value={t}
+        key={t}
+        style={{
+          backgroundColor: Themes[t].background,
+          borderColor: Themes[t].background,
+          color: Themes[t].paragraph,
+        }}
+      >
         {t}
       </option>
     ));
@@ -48,6 +60,12 @@ function ThemeChanger({ onChange }) {
       onChange={(e) => {
         setThemeSelector(e.target.value);
         onChange(e.target.value);
+      }}
+      className={className}
+      style={{
+        backgroundColor: theme.button,
+        borderColor: theme.button,
+        color: theme.button_text,
       }}
     >
       {themeOptions}

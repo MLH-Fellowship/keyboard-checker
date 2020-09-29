@@ -122,20 +122,23 @@
   }
 }
 
-
-
 .pressed-key {
-  background: #abd1c6!important;
-
+  background: #abd1c6 !important;
 }
 
 .tapped-key {
-  background: #f9bc60!important;
-
+  background: #f9bc60 !important;
 }
 
 .currently-pressed {
-    background: #e16162 !important;
-    font-weight: 900;
+  background: #e16162 !important;
+  font-weight: 900;
 }
 
+.themeChanger {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  border-radius: 3px;
+  font-size: 1.2rem;
+}
