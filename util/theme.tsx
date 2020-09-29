@@ -44,7 +44,7 @@ export const Themes: { [name: string]: Theme } = {
     headline: "#fffffe",
     paragraph: "#a7a9be",
     button: "#ff8906",
-    button_text: "#fffffe",
+    button_text: "black",
     stroke: "black",
     chartBorder: "#e53170",
   },
