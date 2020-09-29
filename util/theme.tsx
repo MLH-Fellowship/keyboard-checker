@@ -2,7 +2,6 @@ import { createContext } from "react";
 
 // Based on https://www.happyhues.co/
 interface Theme {
-  name: string
   background: string;
   headline: string;
   paragraph: string;
@@ -14,7 +13,6 @@ interface Theme {
 
 export const Themes: { [name: string]: Theme } = {
   "Port Gore": {
-    name: "portGore",
     background: "#232946",
     headline: "#fffffe",
     paragraph: "#b8c1ec",
@@ -24,7 +22,6 @@ export const Themes: { [name: string]: Theme } = {
     chartBorder: "#e53170",
   },
   Solitaire: {
-    name: "solitare",
     background: "#fef6e4",
     headline: "#001858",
     paragraph: "#f582ae",
