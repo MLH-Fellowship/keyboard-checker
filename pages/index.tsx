@@ -5,6 +5,7 @@ import Keyboard from "react-simple-keyboard";
 import Chart from "../components/chart";
 import { ThemeContext, Themes, DefaultThemeSelector } from "../util/theme";
 import { KeyLog } from "../components/KeyLog";
+import css from "styled-jsx/css";
 
 export default function Home() {
   let [theme, setTheme] = useState(Themes["Port Gore"]);
@@ -15,8 +16,8 @@ export default function Home() {
         style={{ background: theme.background, color: theme.paragraph }}
       >
         <Head>
-          <title>Create Next App</title>
-          <link rel="icon" href="/favicon.ico" />
+          <title>Switch Check</title>
+          <link rel="icon" href="/working.png" />
         </Head>
 
         <ThemeChanger
@@ -24,9 +25,7 @@ export default function Home() {
           onChange={(t) => setTheme(Themes[t])}
         />
         <main className={styles.main}>
-          <h1 className={styles.title}>
-            Welcome to <a href="https://nextjs.org">Next.js!</a>
-          </h1>
+          <h1 className={styles.title}>Switch Check</h1>
           <KeyboardComponent></KeyboardComponent>
           <div
             style={{
@@ -83,6 +82,7 @@ function ThemeChanger({ onChange, className }) {
 function KeyboardComponent() {
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
+  const theme = useContext(ThemeContext);
   let pressedKeysArr = [];
 
   // TODO: handleShift and Caps Lock via physical keyboard. The following only handles digital keyboard
@@ -107,40 +107,73 @@ function KeyboardComponent() {
   });
   let pressedKeysStr = pressedKeysArr.join(" ");
 
+
+  const pressedResolve = css.resolve`
+    div {
+      background: ${theme.paragraph} !important;
+      color: ${theme.button_text};
+      font-weight: 900;
+    }
+  `;
+  const currentlyPressedResolve = css.resolve`
+    div {
+      background: ${theme.button} !important;
+      color: ${theme.button_text};
+      font-weight: 900;
+    }
+  `;
+
+ 
+    //! Still having issues with the keyboard theme
+  const keyboardTheme = css.resolve`
+    div {
+      background: ${theme.headline} !important;
+      color: ${theme.button_text};
+      font-weight: 500;
+    }
+  `
+    console.log(keyboardTheme)
   return (
-    <Keyboard
-      keyboardRef={(r) => (keyboard.current = r)}
-      layoutName={layout}
-      onKeyPress={(button) => onKeyPress(button)}
-      layout={{
-        default: [
-          "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
-          "{tab} q w e r t y u i o p [ ] \\",
-          "{lock} a s d f g h j k l ; ' {enter}",
-          "{shift} z x c v b n m , . / {shift}",
-          ".com @ {space}",
-        ],
-        shift: [
-          "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
-          "{tab} Q W E R T Y U I O P { } |",
-          '{lock} A S D F G H J K L : " {enter}',
-          "{shift} Z X C V B N M < > ? {shift}",
-          ".com @ {space}",
-        ],
-      }}
-      buttonTheme={[
-        {
-          class: `${styles["pressed-key"]}`,
-          buttons: pressedKeysStr ? pressedKeysStr : "empty",
-          // Placeholder value needed, otherwise ESLINT error
-        },
-        {
-          class: `${styles["currently-pressed"]}`,
-          buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
-          // Placeholder value needed, otherwise ESLINT error
-        },
-      ]}
-    />
+    <div>
+      <Keyboard
+        keyboardRef={(r) => (keyboard.current = r)}
+        layoutName={layout}
+        theme={`hg-theme-default ${keyboardTheme.className}` }
+        // theme={theme.name === "portGore" ? `hg-theme-default ${styles.portGore}` : `${styles.solitare} hg-theme-default`}
+        onKeyPress={(button) => onKeyPress(button)}
+        layout={{
+          default: [
+            "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+            "{tab} q w e r t y u i o p [ ] \\",
+            "{lock} a s d f g h j k l ; ' {enter}",
+            "{shift} z x c v b n m , . / {shift}",
+            ".com @ {space}",
+          ],
+          shift: [
+            "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
+            "{tab} Q W E R T Y U I O P { } |",
+            '{lock} A S D F G H J K L : " {enter}',
+            "{shift} Z X C V B N M < > ? {shift}",
+            ".com @ {space}",
+          ],
+        }}
+        buttonTheme={[
+          {
+            class: pressedResolve.className,
+            buttons: pressedKeysStr ? pressedKeysStr : "empty",
+            // Placeholder value needed, otherwise ESLINT error
+          },
+          {
+            class: currentlyPressedResolve.className,
+            buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
+            // Placeholder value needed, otherwise ESLINT error
+          },
+        ]}
+      ></Keyboard>
+      {keyboardTheme.styles}
+      {pressedResolve.styles}
+      {currentlyPressedResolve.styles}
+    </div>
   );
 }
 

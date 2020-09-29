@@ -24,8 +24,8 @@ export const Themes: { [name: string]: Theme } = {
   Solitaire: {
     background: "#fef6e4",
     headline: "#001858",
-    paragraph: "#172c66",
-    button: "#f582ae",
+    paragraph: "#f582ae",
+    button: "#8bd3dd",
     button_text: "#001858",
     stroke: "#001858",
     chartBorder: "#e53170",
