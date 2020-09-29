@@ -1,4 +1,9 @@
+# Switch Check
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Leverages the following open source packages:
+* [Chart.js] (https://www.chartjs.org/)
+* [Simple Keyboard] (https://hodgef.com/simple-keyboard/)
+* [chartjs-plugin-streaming] (https://nagix.github.io/chartjs-plugin-streaming/)
 
 ## Getting Started
 
