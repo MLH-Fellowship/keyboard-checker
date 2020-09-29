@@ -180,6 +180,7 @@ export function useKeyTracker(): KeyTracker {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      e.preventDefault();
       setKeyTracker(({ events, isPressed, hasBeenPressed }) => {
         const newIsPressed = new Set([...isPressed]);
         if (e.type == "keydown") {
