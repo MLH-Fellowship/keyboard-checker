@@ -1,7 +1,8 @@
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
 import { useKeyTracker } from "../pages/index";
-import { useRef } from "react";
+import { useRef, useContext } from "react";
+import { ThemeContext } from "../util/theme";
 
 interface UpdateProps {
     onUpdate: (n: number) => void;
@@ -14,6 +15,7 @@ function Update({ onUpdate }: UpdateProps) {
 
 export default function Chart() {
     const chart = useRef<any>(null);
+    const theme = useContext(ThemeContext);
     return (
         <div>
             <Update
@@ -37,15 +39,18 @@ export default function Chart() {
                 data={{
                     datasets: [
                         {
-                            borderColor: "rgb(255, 99, 132)",
-                            backgroundColor: "rgba(255, 99, 132, 0.5)",
+                            backgroundColor: theme.button,
+                            borderColor: theme.chartBorder,
                         },
                     ],
                 }}
                 options={{
                     title: {
                         display: true,
-                        text: "Keys pressed frequency time chart",
+                        text: "Key Tracker Time Chart",
+                        fontColor: theme.headline,
+                        fontSize: 20,
+                        fontStyle: "bold",
                     },
                     legend: {
                         display: false,
@@ -61,7 +66,13 @@ export default function Chart() {
                                                 const data = dataset.data;
                                                 data.push({
                                                     x: Date.now(),
-                                                    y: data.length == 0 ? 0 : data[data.length-1],
+                                                    y:
+                                                        data.length == 0
+                                                            ? 0
+                                                            : data[
+                                                                  data.length -
+                                                                      1
+                                                              ],
                                                 });
                                             }
                                         );
@@ -72,11 +83,18 @@ export default function Chart() {
                                 time: {
                                     unit: "millisecond",
                                 },
+                                ticks: {
+                                    fontColor: theme.background, // A hack to hide x-axis labels, by setting them to background color.
+                                    fontSize: 4,
+                                },
                                 gridLines: {
+                                    color: theme.headline,
                                     drawOnChartArea: false,
                                 },
                                 scaleLabel: {
                                     display: true,
+                                    fontColor: theme.headline,
+                                    fontSize: 16,
                                     labelString: "time",
                                 },
                             },
@@ -90,10 +108,13 @@ export default function Chart() {
                                     stepSize: 1.0,
                                 },
                                 gridLines: {
+                                    color: theme.headline,
                                     drawOnChartArea: false,
                                 },
                                 scaleLabel: {
                                     display: true,
+                                    fontColor: theme.headline,
+                                    fontSize: 16,
                                     labelString: "# of buttons pressed",
                                 },
                             },
