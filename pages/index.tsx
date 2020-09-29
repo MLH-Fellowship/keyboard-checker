@@ -79,6 +79,31 @@ function ThemeChanger({ onChange, className }) {
   );
 }
 
+const OSKKeyMap = {
+  " ": "{space}",
+  Alt: "{alt}",
+  Meta: "win",
+  Shift: "{shift}",
+  Escape: "esc",
+  Tab: "{tab}",
+  CapsLock: "{lock}",
+  Control: "ctrl",
+  Enter: "{enter}",
+  Backspace: "{bksp}",
+  F1: "f1",
+  F2: "f2",
+  F3: "f3",
+  F4: "f4",
+  F5: "f5",
+  F6: "f6",
+  F7: "f7",
+  F8: "f8",
+  F9: "f9",
+  F10: "f10",
+  F11: "f11",
+  F12: "f12",
+};
+
 function KeyboardComponent() {
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
@@ -99,14 +124,15 @@ function KeyboardComponent() {
   };
 
   const keyTracker = useKeyTracker();
-  let currentlyPressedKeys = Array.from(keyTracker.isPressed).join(" ");
+  let currentlyPressedKeys = Array.from(keyTracker.isPressed)
+    .map((k) => (k in OSKKeyMap ? OSKKeyMap[k] : k))
+    .join(" ");
   keyTracker.hasBeenPressed.forEach((key) => {
     if (!keyTracker.isPressed.has(key)) {
-      pressedKeysArr.push(key);
+      pressedKeysArr.push(key in OSKKeyMap ? OSKKeyMap[key] : key);
     }
   });
   let pressedKeysStr = pressedKeysArr.join(" ");
-
 
   const pressedResolve = css.resolve`
     div {
@@ -123,38 +149,30 @@ function KeyboardComponent() {
     }
   `;
 
- 
-    //! Still having issues with the keyboard theme
+  //! Still having issues with the keyboard theme
   const keyboardTheme = css.resolve`
     div {
       background: ${theme.headline} !important;
       color: ${theme.button_text};
       font-weight: 500;
     }
-  `
-    console.log(keyboardTheme)
+  `;
+  console.log(keyboardTheme);
   return (
     <div>
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}
-        theme={`hg-theme-default ${keyboardTheme.className}` }
-        // theme={theme.name === "portGore" ? `hg-theme-default ${styles.portGore}` : `${styles.solitare} hg-theme-default`}
+        theme={`hg-theme-default ${keyboardTheme.className}`}
         onKeyPress={(button) => onKeyPress(button)}
         layout={{
           default: [
+            "esc f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12",
             "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
             "{tab} q w e r t y u i o p [ ] \\",
             "{lock} a s d f g h j k l ; ' {enter}",
             "{shift} z x c v b n m , . / {shift}",
-            ".com @ {space}",
-          ],
-          shift: [
-            "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
-            "{tab} Q W E R T Y U I O P { } |",
-            '{lock} A S D F G H J K L : " {enter}',
-            "{shift} Z X C V B N M < > ? {shift}",
-            ".com @ {space}",
+            "ctrl win {alt} {space} {alt} fn menu ctrl",
           ],
         }}
         buttonTheme={[
@@ -169,10 +187,10 @@ function KeyboardComponent() {
             // Placeholder value needed, otherwise ESLINT error
           },
         ]}
-      ></Keyboard>
-      {keyboardTheme.styles}
+      />
       {pressedResolve.styles}
       {currentlyPressedResolve.styles}
+      {keyboardTheme.styles}
     </div>
   );
 }
