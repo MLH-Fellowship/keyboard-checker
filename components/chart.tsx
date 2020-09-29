@@ -82,6 +82,7 @@ export default function Chart() {
                 gridLines: {
                   color: theme.headline,
                   drawOnChartArea: false,
+                  drawTicks: false,
                 },
                 scaleLabel: {
                   display: true,
