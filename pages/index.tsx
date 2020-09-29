@@ -16,13 +16,13 @@ export default function Home() {
       >
         <ThemeChanger onChange={(t) => setTheme(Themes[t])} />
         <Head>
-          <title>Create Next App</title>
-          <link rel="icon" href="/favicon.ico" />
+          <title>Switch Check</title>
+          <link rel="icon" href="/working.png" />
         </Head>
 
         <main className={styles.main}>
           <h1 className={styles.title}>
-            Welcome to <a href="https://nextjs.org">Next.js!</a>
+            Switch Check
           </h1>
           <KeyboardComponent></KeyboardComponent>
           <Chart></Chart>
@@ -95,39 +95,48 @@ function KeyboardComponent() {
   let pressedKeysStr = pressedKeysArr.join(" ");
 
   return (
-    <Keyboard
-      keyboardRef={(r) => (keyboard.current = r)}
-      layoutName={layout}
-      onKeyPress={(button) => onKeyPress(button)}
-      layout={{
-        default: [
-          "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
-          "{tab} q w e r t y u i o p [ ] \\",
-          "{lock} a s d f g h j k l ; ' {enter}",
-          "{shift} z x c v b n m , . / {shift}",
-          ".com @ {space}",
-        ],
-        shift: [
-          "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
-          "{tab} Q W E R T Y U I O P { } |",
-          '{lock} A S D F G H J K L : " {enter}',
-          "{shift} Z X C V B N M < > ? {shift}",
-          ".com @ {space}",
-        ],
+    <ThemeContext.Consumer>
+      {theme => {
+        return (
+
+          <Keyboard
+            keyboardRef={(r) => (keyboard.current = r)}
+            layoutName={layout}
+            theme={theme.name === "portGore" ? `hg-theme-default ${styles.portGore}` : `${styles.solitare} hg-theme-default`}
+            onKeyPress={(button) => onKeyPress(button)}
+            layout={{
+              default: [
+                "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+                "{tab} q w e r t y u i o p [ ] \\",
+                "{lock} a s d f g h j k l ; ' {enter}",
+                "{shift} z x c v b n m , . / {shift}",
+                ".com @ {space}",
+              ],
+              shift: [
+                "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
+                "{tab} Q W E R T Y U I O P { } |",
+                '{lock} A S D F G H J K L : " {enter}',
+                "{shift} Z X C V B N M < > ? {shift}",
+                ".com @ {space}",
+              ],
+            }}
+            buttonTheme={[
+              {
+                class: theme.name === "portGore" ?  `${styles["pressed-key-portGore"]}` : `${styles["pressed-key-solitare"]}` ,
+                buttons: pressedKeysStr ? pressedKeysStr : "empty",
+                // Placeholder value needed, otherwise ESLINT error
+              },
+              {
+                class: theme.name === "portGore" ? `${styles["currently-pressed-portGore"]}` : `${styles["currently-pressed-solitare"]}`,
+                buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
+                // Placeholder value needed, otherwise ESLINT error
+              },
+            ]}
+          />
+        )
       }}
-      buttonTheme={[
-        {
-          class: `${styles["pressed-key"]}`,
-          buttons: pressedKeysStr ? pressedKeysStr : "empty",
-          // Placeholder value needed, otherwise ESLINT error
-        },
-        {
-          class: `${styles["currently-pressed"]}`,
-          buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
-          // Placeholder value needed, otherwise ESLINT error
-        },
-      ]}
-    />
+    </ThemeContext.Consumer>
+
   );
 }
 
