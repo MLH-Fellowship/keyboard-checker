@@ -20,26 +20,26 @@ export default function Chart() {
     <div
       style={{
         width: "50%",
+        padding: "10px",
       }}
     >
       <Update
         onUpdate={(n: number) => {
           if (chart.current !== null) {
-            console.log(chart.current);
             chart.current.chartInstance.data.datasets[0].data.push({
               x: Date.now(),
               y: n,
             });
             // chart.current.chartInstance.update({
-            //     preservation: true,
+            //   preservation: true,
             // });
           }
         }}
       ></Update>
       <Line
         ref={chart}
-        width={1000}
-        height={800}
+        width={500}
+        height={250}
         data={{
           datasets: [
             {
@@ -49,12 +49,15 @@ export default function Chart() {
           ],
         }}
         options={{
+          animation: {
+            duration: 0, // general animation time
+          },
+          hover: {
+            animationDuration: 0, // duration of animations when hovering an item
+          },
+          responsiveAnimationDuration: 0, // animation duration after a resize
           title: {
-            display: true,
-            text: "Key Tracker Time Chart",
-            fontColor: theme.headline,
-            fontSize: 20,
-            fontStyle: "bold",
+            display: false,
           },
           legend: {
             display: false,
@@ -74,45 +77,22 @@ export default function Chart() {
                     });
                   },
 
-                  delay: 0,
+                  refresh: 100,
+                  delay: 100,
+                  duration: 4000,
+                  frameRate: 30,
                 },
-                time: {
-                  unit: "millisecond",
-                },
-                ticks: {
-                  fontColor: theme.background, // A hack to hide x-axis labels, by setting them to background color.
-                  fontSize: 4,
-                },
-                gridLines: {
-                  color: theme.headline,
-                  drawOnChartArea: false,
-                  drawTicks: false,
-                },
-                scaleLabel: {
-                  display: true,
-                  fontColor: theme.headline,
-                  fontSize: 16,
-                  labelString: "time",
-                },
+                display: false,
               },
             ],
             yAxes: [
               {
+                display: false,
                 ticks: {
                   display: false,
-                  min: 0,
-                  max: 7,
+                  min: -1,
+                  max: 8,
                   stepSize: 1.0,
-                },
-                gridLines: {
-                  color: theme.headline,
-                  drawOnChartArea: false,
-                },
-                scaleLabel: {
-                  display: true,
-                  fontColor: theme.headline,
-                  fontSize: 16,
-                  labelString: "# of buttons pressed",
                 },
               },
             ],
