@@ -28,8 +28,15 @@ export default function Home() {
             Welcome to <a href="https://nextjs.org">Next.js!</a>
           </h1>
           <KeyboardComponent></KeyboardComponent>
-          <Chart></Chart>
-          <KeyLog></KeyLog>
+          <div
+            style={{
+              display: "flex",
+              width: "1000px",
+            }}
+          >
+            <KeyLog></KeyLog>
+            <Chart></Chart>
+          </div>
         </main>
       </div>
     </ThemeContext.Provider>

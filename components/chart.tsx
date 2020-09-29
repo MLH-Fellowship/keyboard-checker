@@ -17,7 +17,11 @@ export default function Chart() {
   const chart = useRef<any>(null);
   const theme = useContext(ThemeContext);
   return (
-    <div>
+    <div
+      style={{
+        width: "50%",
+      }}
+    >
       <Update
         onUpdate={(n: number) => {
           if (chart.current !== null) {
@@ -35,7 +39,7 @@ export default function Chart() {
       <Line
         ref={chart}
         width={1000}
-        height={500}
+        height={800}
         data={{
           datasets: [
             {

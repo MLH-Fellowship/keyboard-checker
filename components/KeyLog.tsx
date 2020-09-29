@@ -37,7 +37,7 @@ export function KeyLog() {
     );
   }
 
-  return <div style={{ width: "100%" }}>{items}</div>;
+  return <div style={{ width: "100%", padding: "10px" }}>{items}</div>;
 }
 
 function KeyLogItem({ keyStr, pressed, held, released, count, maxBlips }) {
