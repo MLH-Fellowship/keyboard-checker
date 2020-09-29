@@ -130,6 +130,7 @@ function KeyboardComponent() {
       background: ${theme.headline} !important;
       color: ${theme.button_text};
       font-weight: 500;
+      width: 75vw;
     }
   `
     console.log(keyboardTheme)
