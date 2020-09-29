@@ -1,4 +1,5 @@
-# Switch Check
+![keyboard-checker](https://socialify.git.ci/MLH-Fellowship/keyboard-checker/png?description=1&font=Raleway&forks=1&issues=1&logo=https%3A%2F%2Favatars0.githubusercontent.com%2Fu%2F65834464%3Fs%3D200%26v%3D4&pulls=1&theme=Light)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 Leverages the following open source packages:
 * [Chart.js](https://www.chartjs.org/)
