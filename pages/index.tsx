@@ -21,7 +21,9 @@ export default function Home() {
         </Head>
 
         <main className={styles.main}>
-          <h1 className={styles.title}>Switch Check</h1>
+          <h1 className={styles.title}>
+            Switch Check
+          </h1>
           <KeyboardComponent></KeyboardComponent>
           <Chart></Chart>
           <KeyLog></KeyLog>
@@ -68,6 +70,8 @@ function ThemeChanger({ onChange }) {
 function KeyboardComponent() {
   const [layout, setLayout] = useState("default");
   const keyboard = useRef();
+  const theme = useContext(ThemeContext)
+  console.log(theme)
   let pressedKeysArr = [];
 
   // TODO: handleShift and Caps Lock via physical keyboard. The following only handles digital keyboard
@@ -93,58 +97,56 @@ function KeyboardComponent() {
   let pressedKeysStr = pressedKeysArr.join(" ");
 
   return (
-    <ThemeContext.Consumer>
-      {(theme) => {
-        return (
-          <Keyboard
-            keyboardRef={(r) => (keyboard.current = r)}
-            layoutName={layout}
-            theme={
-              theme.name === "portGore"
-                ? `hg-theme-default ${styles.portGore}`
-                : `${styles.solitare} hg-theme-default`
-            }
-            onKeyPress={(button) => onKeyPress(button)}
-            layout={{
-              default: [
-                "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
-                "{tab} q w e r t y u i o p [ ] \\",
-                "{lock} a s d f g h j k l ; ' {enter}",
-                "{shift} z x c v b n m , . / {shift}",
-                ".com @ {space}",
-              ],
-              shift: [
-                "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
-                "{tab} Q W E R T Y U I O P { } |",
-                '{lock} A S D F G H J K L : " {enter}',
-                "{shift} Z X C V B N M < > ? {shift}",
-                ".com @ {space}",
-              ],
-            }}
-            buttonTheme={[
-              {
-                class:
-                  theme.name === "portGore"
-                    ? `${styles["pressed-key-portGore"]}`
-                    : `${styles["pressed-key-solitare"]}`,
-                buttons: pressedKeysStr ? pressedKeysStr : "empty",
-                // Placeholder value needed, otherwise ESLINT error
-              },
-              {
-                class:
-                  theme.name === "portGore"
-                    ? `${styles["currently-pressed-portGore"]}`
-                    : `${styles["currently-pressed-solitare"]}`,
-                buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
-                // Placeholder value needed, otherwise ESLINT error
-              },
-            ]}
-          />
-        );
-      }}
-    </ThemeContext.Consumer>
+    <div>
+      <Keyboard
+        keyboardRef={(r) => (keyboard.current = r)}
+        layoutName={layout}
+        theme={`hg-theme-default`}
+        // theme={theme.name === "portGore" ? `hg-theme-default ${styles.portGore}` : `${styles.solitare} hg-theme-default`}
+        onKeyPress={(button) => onKeyPress(button)}
+        layout={{
+          default: [
+            "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+            "{tab} q w e r t y u i o p [ ] \\",
+            "{lock} a s d f g h j k l ; ' {enter}",
+            "{shift} z x c v b n m , . / {shift}",
+            ".com @ {space}",
+          ],
+          shift: [
+            "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
+            "{tab} Q W E R T Y U I O P { } |",
+            '{lock} A S D F G H J K L : " {enter}',
+            "{shift} Z X C V B N M < > ? {shift}",
+            ".com @ {space}",
+          ],
+        }}
+        buttonTheme={[
+          {
+            class: `pressed`,
+            buttons: pressedKeysStr ? pressedKeysStr : "empty",
+            // Placeholder value needed, otherwise ESLINT error
+          },
+          {
+            class: `currentlyPressed`,
+            buttons: currentlyPressedKeys ? currentlyPressedKeys : "empty",
+            // Placeholder value needed, otherwise ESLINT error
+          },
+        ]}
+      ></Keyboard>
+      <style jsx>{`
+        div > :global(.pressed) {
+          background: #eebbc3 !important;
+        }
+        .currentlyPressed {
+          background: blue !important;
+        }
+      `}</style>
+    </div>
   );
-}
+  }
+
+  
+
 
 function KeyTrackerTest() {
   const keyTracker = useKeyTracker();
