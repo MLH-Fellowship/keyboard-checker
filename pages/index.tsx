@@ -99,6 +99,7 @@ function KeyboardComponent() {
     div {
       background: ${theme.paragraph} !important;
       color: ${theme.button_text};
+      font-weight: 900;
     }
   `;
   const currentlyPressedResolve = css.resolve`
@@ -109,10 +110,13 @@ function KeyboardComponent() {
     }
   `;
 
+ 
+    //! Still having issues with the keyboard theme
   const keyboardTheme = css.resolve`
     div {
-      background: ${theme.stroke} !important;
-      font-weight: 900;
+      background: ${theme.headline} !important;
+      color: ${theme.button_text};
+      font-weight: 500;
     }
   `
     console.log(keyboardTheme)
@@ -153,6 +157,7 @@ function KeyboardComponent() {
           },
         ]}
       ></Keyboard>
+      {keyboardTheme.styles}
       {pressedResolve.styles}
       {currentlyPressedResolve.styles}
     </div>
